@@ -73,6 +73,25 @@ namespace LobbyCommands
                     e.Game.Options.Map = map;
                     await e.Game.SyncSettingsAsync();
                     break;
+                case "setplayers":
+                    if (parts.Length == 1)
+                    {
+                        await e.PlayerControl.SendChatAsync($"Please specify the number of players.");
+                        return;
+                    }
+
+                    if (int.TryParse(parts[1], out int num))
+                    {
+
+                        await e.PlayerControl.SendChatAsync($"Setting the number of players to {num}");
+
+                        e.Game.Options.MaxPlayers = num;
+                        await e.Game.SyncSettingsAsync();
+                    }
+                    else
+                        await e.PlayerControl.SendChatAsync($"Unable to convert '{parts[1]}' to a number!");
+                    break;
+                    break;
                 default:
                     _logger.LogInformation($"Unknown command {parts[0]} from {e.PlayerControl.PlayerInfo.PlayerName} on {e.Game.Code.Code}.");
                     break;
