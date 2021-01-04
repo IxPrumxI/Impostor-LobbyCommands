@@ -43,8 +43,7 @@ namespace LobbyCommands
 
                     if (int.TryParse(parts[1], out int num))
                     {
-                        num = Math.Clamp(num, 1, 3);
-
+                        num = Math.Clamp(num, 1, Math.floor(e.Game.Options.MaxPlayers/3));
                         await e.PlayerControl.SendChatAsync($"Setting the number of impostors to {num}");
 
                         e.Game.Options.NumImpostors = num;
@@ -82,7 +81,11 @@ namespace LobbyCommands
 
                     if (int.TryParse(parts[1], out int num))
                     {
-
+                        if(e.Game.Options.NumImpostors / num >= 1 / 3)
+                        {
+                            await e.PlayerControl.SendChatAsync($"The number of impostors is too high. Lower it first.");
+                            return;
+                        }
                         await e.PlayerControl.SendChatAsync($"Setting the number of players to {num}");
 
                         e.Game.Options.MaxPlayers = num;
