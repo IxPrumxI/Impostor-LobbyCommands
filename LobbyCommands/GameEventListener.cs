@@ -94,7 +94,6 @@ namespace LobbyCommands
                     else
                         await e.PlayerControl.SendChatAsync($"Unable to convert '{parts[1]}' to a number!");
                     break;
-                    break;
                 default:
                     _logger.LogInformation($"Unknown command {parts[0]} from {e.PlayerControl.PlayerInfo.PlayerName} on {e.Game.Code.Code}.");
                     break;
